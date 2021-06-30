@@ -50,7 +50,7 @@ ipinfo() {
 alias dps='docker ps -a'
 alias dk='docker kill'
 alias drm='docker rm'
-alias dim='docker images'
+alias dim='docker images | sort -h | column -t'
 alias dimr='docker rmi'
 
 drma() {
@@ -113,4 +113,9 @@ alias git_submodule_clone='git submodule update --init --recursive'
 
 diffdirs() {
     diff --brief --recursive --no-dereference --new-file --no-ignore-file-name-case "$1" "$2"
+}
+
+format_images() {
+    exiftool -all= *
+    mogrify -format jpg -resize 50%x50% *
 }

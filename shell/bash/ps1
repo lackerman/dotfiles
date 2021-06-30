@@ -34,22 +34,24 @@ r_dg='\[\e[31;100m\]'      # fg: red        bg: dark grey
 end='\[\e[0m\]'
 
 context() {
-    [[ $(kubectl config current-context 2>/dev/null) != "" ]] && echo " ⎈  $(kubectl config current-context)" || echo ""
-}
-uncommitted_changes() {
-   [[ "$(git status 2>/dev/null)" =~ working\ tree\ clean ]] && echo "✔" || echo "✘"
+    [[ $(kubectl config current-context 2>/dev/null) != "" ]] && echo " ⎈ $(kubectl config current-context)" || echo ""
 }
 cbranch() {
-    if [[ "$(pwd)" =~ Documents/main ]]; then
-        echo ""
-    elif [[ -d .git ]]; then
-        echo " ($(__git_ps1 '%s') $(uncommitted_changes))"
-    else
-        echo ""
-    fi
+	status="$(git status -u no 2>/dev/null)"
+	if [[ -z "$status" ]]; then
+		echo ""
+	else
+		branch="$(git symbolic-ref HEAD --short 2> /dev/null)"
+		changes="$([[ "${status}" =~ "working tree clean" ]] && echo '✔' || echo '✘')"
+		echo " (${branch} ${changes})"
+	fi
 }
 chostname() {
     echo "@$(hostname)"
 }
 
-export PS1="\u\$(chostname)${lbfg}${bold}\$(context)${end} ${bold}${gfg}\W${end}\$(cbranch)${gfg} $ ${end}"
+export PS1="\u ${bold}${gfg}\W${end}\$(cbranch)${gfg} $ ${end}"
+# PS1 with k8s context
+# export PS1="\u\$(chostname)${lbfg}${bold}\$(context)${end} ${bold}${gfg}\W${end}\$(cbranch)${gfg} $ ${end}"
+# Simple PS1 without context
+# export PS1="${lbfg}${bold}\$(context)${end} ${bold}${gfg}\W${end}\$(cbranch)${gfg} $ ${end}"
