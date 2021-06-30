@@ -4,7 +4,7 @@
 # History setup
 ########################################
 
-export HISTSIZE=10000 # increase history size (default is 500)
+export HISTSIZE=100000 # increase history size (default is 500)
 
 # These seems to remove all bash history on Linux
 if [ "$(uname)" = 'Darwin' ]; then

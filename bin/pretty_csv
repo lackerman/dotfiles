@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ruby -rcsv -e 'puts CSV.parse(STDIN).transpose.map &:to_csv' < "$1" | column -t -s, | less
