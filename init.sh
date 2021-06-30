@@ -33,6 +33,7 @@ esac
 ln -s "${DOTFILES_LOCATION}/.vim" "$HOME/.vim"
 ln -s "${DOTFILES_LOCATION}/.vimrc" "$HOME/.vimrc"
 ln -s "${DOTFILES_LOCATION}/.tmux.conf" "$HOME/.tmux.conf"
+ln -s "${DOTFILES_LOCATION}/.gitconfig" "$HOME/.gitconfig"
 
 # install the preferred macOS utilities and devtools
 if [ "$(uname)" = 'Darwin' ]; then
@@ -43,22 +44,3 @@ if [ "$(uname)" = 'Darwin' ]; then
 
     brew tap beeftornado/rmtree
 fi
-
-# add the specific gitconfig config if does not exist
-tee -a "$HOME/.gitconfig" <<EOF
-[filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
-	required = true
-[core]
-	autocrlf = input
-	editor = vim
-[alias]
-	hist = log --graph --color=always --pretty='[%C(cyan)%h%Creset]%C(bold cyan)%d%Creset %s' --all
-	co = checkout
-	branches = for-each-ref --sort=-committerdate refs/heads/
-[color]
-	ui = auto
-[push]
-	default = upstream
-EOF
