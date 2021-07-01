@@ -3,15 +3,19 @@
 ########################################
 # Fuzzy searching
 ########################################
-
-if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
-    export PATH="$PATH:/usr/local/opt/fzf/bin"
+FZF_PATH="/usr/local/opt/fzf"
+if type brew &>/dev/null; then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  if [[ -d "$HOMEBREW_PREFIX" ]]; then
+    FZF_PATH="$HOMEBREW_PREFIX/opt/fzf"
+  fi
 fi
+export PATH="$PATH:$FZF_PATH/bin"
 
 # Auto-completion
-[[ $- == *i* ]] && source "/usr/local/opt/fzf/shell/completion.bash" 2> /dev/null
+[[ $- == *i* ]] && source "${FZF_PATH}/shell/completion.bash" 2> /dev/null
 # Key bindings
-source "/usr/local/opt/fzf/shell/key-bindings.bash"
+source "${FZF_PATH}/shell/key-bindings.bash"
 
 # fzf + ag configuration
 export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
