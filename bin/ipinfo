@@ -1,0 +1,6 @@
+#!/bin/bash
+
+public_ip="$(curl -sL http://ipecho.net/plain)"
+raw_info="$(curl -s "https://ipapi.co/${public_ip}/json" | \
+    jq -r '[.ip, .org, .city, .region, .country_name, .country] | @csv')"
+echo "${raw_info//\"}"

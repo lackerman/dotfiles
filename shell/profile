@@ -7,6 +7,7 @@
 command -v rbenv > /dev/null 2>&1 && eval "$(rbenv init -)"
 command -v pyenv > /dev/null 2>&1 && MY_PATH_PREFIX="$(pyenv root)/shims"
 
+export PATH="$HOME/.krew}/bin:$PATH"
 MY_PATH_SUFFIX="${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.dotfiles/scripts"
 command -v go > /dev/null 2>&1 && MY_PATH_PREFIX="$PATH_SUFFIX:$(go env GOPATH)/bin"
 
@@ -27,21 +28,6 @@ fi
 
 alias vi=vim
 alias ll='ls -l'
-
-#####################
-# network utils
-#####################
-
-whoislistening() {
-    sudo lsof -i -n -P | grep LISTEN
-}
-
-ipinfo() {
-    public_ip="$(curl -sL http://ipecho.net/plain)"
-	raw_info="$(curl -s "https://ipapi.co/${public_ip}/json" | \
-        jq -r '[.ip, .org, .city, .region, .country_name, .country] | @csv')"
-    echo "${raw_info//\"}"
-}
 
 #####################
 # docker utilities
@@ -75,7 +61,7 @@ docker_gitlab_login() {
 #####################
 
 alias k=kubectl
-alias ka='kubectl get all,ingress,sa,secrets,cm,roles,rolebindings'
+alias ka='k get all,cm,secrets,pv,pvc,crd,psp,roles,rolebindings,clusterrole,clusterrolebindings,certificates --all-namespaces'
 alias kd='kubectl delete'
 alias kl='kubectl logs'
 alias kw='kubectl get pods -w'
@@ -106,16 +92,3 @@ alias gsp='git add . && git stash && git pull --rebase && git stash pop'
 alias git_ls_commit_files='git diff-tree --no-commit-id --name-only -r'
 alias git_submodule_update='git submodule update --recursive --remote'
 alias git_submodule_clone='git submodule update --init --recursive'
-
-#####################
-# general utils
-#####################
-
-diffdirs() {
-    diff --brief --recursive --no-dereference --new-file --no-ignore-file-name-case "$1" "$2"
-}
-
-format_images() {
-    exiftool -all= *
-    mogrify -format jpg -resize 50%x50% *
-}

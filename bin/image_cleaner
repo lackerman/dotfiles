@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mogrify -format jpg -resize 50%x50% "$(pwd)/*"
+exiftool -overwrite_original -EXIF= "$(pwd)/*.jpg"

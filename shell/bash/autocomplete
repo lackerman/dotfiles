@@ -9,17 +9,15 @@ if type brew &>/dev/null; then
   if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
     source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
   else
-    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
-      [[ -r "$COMPLETION" ]] && source "$COMPLETION"
+    for completion_script in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+      [[ -r "${completion_script}" ]] && source "${completion_script}"
     done
   fi
 fi
 
 # gcloud
-[ -f ${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc ] \
-       && source ${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc
-[ -f ${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc ] \
-       && source ${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc
+[ -f "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc" ] \
+  && source "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
 
 # Setup kubectl completion and completions for the alias 'k'
 command -v kubectl > /dev/null 2>&1 && source <(kubectl completion bash | sed 's/kubectl/k/g')

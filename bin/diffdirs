@@ -1,0 +1,3 @@
+#!/bin/bash
+
+diff --brief --recursive --no-dereference --new-file --no-ignore-file-name-case "$1" "$2"
