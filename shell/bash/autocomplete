@@ -23,3 +23,7 @@ fi
 command -v kubectl > /dev/null 2>&1 && source <(kubectl completion bash | sed 's/kubectl/k/g')
 # Setup autocompletion for kind cluster utility
 command -v kind > /dev/null 2>&1 && source <(kind completion bash)
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh" # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion

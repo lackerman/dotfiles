@@ -1,4 +1,25 @@
 #!/bin/bash
 
-mogrify -format jpg -resize 50%x50% "$(pwd)/*"
-exiftool -overwrite_original -EXIF= "$(pwd)/*.jpg"
+usage() {
+    cat <<EOF
+
+Wrapper around mogrify & exiftool to resize and scrub images
+
+Usage: $(basename "$0") [-r]
+
+    -r  To resize the images before before stripping the exif data
+
+EOF
+}
+
+while getopts "rh" opt; do
+    case "${opt}" in
+        r) resize=true;;
+        h) usage && exit 0;;
+        *) usage && exit 1;;
+    esac
+done
+
+[ "${resize}" = true ] && mogrify -format jpg -resize 50%x50% *
+exiftool -overwrite_original -ICC_Profile= -EXIF= *
+exiftool "$(ls | head -n 1)"
