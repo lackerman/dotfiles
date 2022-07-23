@@ -9,6 +9,13 @@ cd ~/.dotfiles
 sh init.sh bash "${DOTFILES_LOCATION}"
 ```
 
+To update the git submodules for iterm2-colors and tmux-themepack, run the following
+```bash
+git submodule update --init --recursive
+git submodule foreach --recursive git fetch
+git submodule foreach git merge origin master
+```
+
 ## vim
 
 The first time your start vim, vim may report some errors. Continue and once it has started,
