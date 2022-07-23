@@ -6,7 +6,7 @@ to setup the necessary dotfiles for tmux, vim, Mac profiles and install extra 3r
 ```
 git clone --recursive https://github.com/lackerman/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-sh init.sh
+sh init.sh bash "${DOTFILES_LOCATION}"
 ```
 
 ## vim

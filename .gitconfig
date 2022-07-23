@@ -19,6 +19,8 @@
 	ui = auto
 [push]
 	default = current
+[url "ssh://git@github.com/lackerman"]
+	insteadOf = https://github.com/lackerman
 [user]
 	name = Leo Ackerman
-
+	email = ackerman.leo@gmail.com

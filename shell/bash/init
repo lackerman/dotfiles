@@ -9,4 +9,6 @@ source \${DOTFILES_LOCATION}/shell/bash/autocomplete
 source \${DOTFILES_LOCATION}/shell/bash/history
 source \${DOTFILES_LOCATION}/shell/bash/ps1
 source \${DOTFILES_LOCATION}/shell/bash/fzf
+
+export PATH="$PATH:${DOTFILES_LOCATION}/bin"
 EOF

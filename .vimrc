@@ -4,7 +4,7 @@ set encoding=utf-8
 set showcmd " display incomplete commands
 
 call plug#begin()
-Plug '/usr/local/opt/fzf'
+Plug '/opt/homebrew/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -16,7 +16,6 @@ Plug 'mhinz/vim-signify'
 Plug 'kien/ctrlp.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " On-demand loading
 Plug 'fatih/vim-go', { 'tag': '*' } " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-Plug 'yegappan/taglist'
 
 " Style plugins
 Plug 'flazz/vim-colorschemes'
