@@ -14,13 +14,6 @@ if type brew &>/dev/null; then
     done
   fi
 
-  # nvm
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "${BREW_PREFIX}/opt/nvm/nvm.sh" ] \
-    && source "${BREW_PREFIX}/opt/nvm/nvm.sh"
-  [ -s "${BREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] \
-    && source "${BREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm"
-
   # gcloud
   [ -f "${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc" ] \
     && source "${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"

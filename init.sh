@@ -37,10 +37,29 @@ ln -s "${DOTFILES_LOCATION}/.gitconfig" "$HOME/.gitconfig"
 
 # install the preferred macOS utilities and devtools
 if [ "$(uname)" = 'Darwin' ]; then
-    brew install ansible pyenv rbenv node sbt scala vim git \
-        shellcheck kubernetes-cli kmaven go jq openssl \
+    brew install ansible vim git \
+        shellcheck kubernetes-cli kind maven go jq openssl \
         watch bash-completion p7zip htop rename fzf tree \
-        the_silver_searcher tmux nmap
+        the_silver_searcher tmux nmap asdf imagemagick \
+        iterm font-fira-code filebot calibre boom-3d \
+        brave-browser rectangle visual-studio-code \
+        imazing vlc
 
     brew tap beeftornado/rmtree
+
+    # python
+    asdf plugin-add python
+    asdf install python latest:3
+
+    # node
+    asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+    asdf install nodejs latest
+    asdf global nodejs latest
+
+    # node
+    asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
+    asdf install ruby latest:2.7
+
+    # sdkman for java deps
+    curl -s "https://get.sdkman.io" | bash
 fi
