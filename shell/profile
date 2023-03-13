@@ -3,9 +3,9 @@
 #####################
 # environment conf
 #####################
-export GOPATH="${HOME}/go"
-MY_PATH_SUFFIX="${KREW_ROOT:-$HOME/.krew}/bin"
-command -v go > /dev/null 2>&1 && MY_PATH_PREFIX="$MY_PATH_SUFFIX:$(go env GOPATH)/bin"
+
+MY_PATH_SUFFIX="${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.dotfiles/bin"
+command -v go > /dev/null 2>&1 && MY_PATH_PREFIX="$PATH_SUFFIX:$(go env GOPATH)/bin"
 
 export PATH="$MY_PATH_PREFIX:$PATH:$MY_PATH_SUFFIX"
 export EDITOR=vim

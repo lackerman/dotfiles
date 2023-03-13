@@ -9,19 +9,29 @@ if type brew &>/dev/null; then
   if [[ -r "${BREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
     source "${BREW_PREFIX}/etc/profile.d/bash_completion.sh"
   else
-    for completion_script in "${BREW_PREFIX}/etc/bash_completion.d/"*; do
-      [[ -r "${completion_script}" ]] && source "${completion_script}"
+    for COMPLETION in "${BREW_PREFIX}/etc/bash_completion.d/"*; do
+      [[ -r "$COMPLETION" ]] && source "$COMPLETION"
     done
   fi
+fi
 
-  # gcloud
-  [ -f "${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc" ] \
-    && source "${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
+# gcloud
+if [[ -f "${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc" ]]; then
+  source "${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
+  source "${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
 fi
 
 # Setup kubectl completion and completions for the alias 'k'
-command -v kubectl > /dev/null 2>&1 && source <(kubectl completion bash | sed 's/kubectl/k/g')
+if command -v kubectl > /dev/null 2>&1; then
+  source <(kubectl completion bash | sed 's/kubectl/k/g')
+fi
+
 # Setup autocompletion for kind cluster utility
-command -v kind > /dev/null 2>&1 && source <(kind completion bash)
-# Setup autocompletion for 
-command -v kind > /dev/null 2>&1 && source <(flux completion bash)
+if command -v kind > /dev/null 2>&1; then
+  source <(kind completion bash)
+fi
+
+# Setup autocompletion for kind
+if command -v flux > /dev/null 2>&1;then
+  source <(flux completion bash)
+fi
