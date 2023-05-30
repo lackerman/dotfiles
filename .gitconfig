@@ -12,15 +12,16 @@
 	branches = for-each-ref --sort=-committerdate refs/heads/
 	pu = !git push origin `git branch --show-current`
 	shelve = !git add . && git stash
-    puf = !git push origin `git branch --show-current` -f
-    hello = !branch=`git rev-parse --abbrev-ref HEAD` && git add . && git stash && git checkout master && git fetch --prune --prune-tags && git pull --rebase && git checkout "${branch}" && git stash pop
-    update = !git shelve && git rebase master && git stash pop
+	puf = !git push origin `git branch --show-current` -f
+	hello = !branch=`git rev-parse --abbrev-ref HEAD` && git add . && git stash && git checkout master && git fetch --prune --prune-tags && git pull --rebase && git checkout "${branch}" && git stash pop
+	update = !git shelve && git rebase master && git stash pop
 [color]
 	ui = auto
 [push]
 	default = current
-[url "ssh://git@github.com/lackerman"]
-	insteadOf = https://github.com/lackerman
 [user]
 	name = Leo Ackerman
-	email = ackerman.leo@gmail.com
+	email = 
+# Enable for personal machines
+# [url "ssh://git@github.com/lackerman"]
+#	insteadOf = https://github.com/lackerman
