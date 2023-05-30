@@ -1,5 +1,3 @@
 #!/bin/bash
 
-cp ~/.bash_history ~/.bash_history.bak || exit 1
-java ~/.dotfiles/bin/history_cleaner.java ~/.bash_history || exit 1
-mv ~/.bash_history.tmp ~/.bash_history
+java ~/.dotfiles/bin/history_cleaner.java
