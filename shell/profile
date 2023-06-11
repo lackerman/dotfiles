@@ -78,6 +78,15 @@ kstat() {
     kubectl get -o json pod "$@" | \
     jq --compact-output '[.status.containerStatuses[], .status.initContainerStatuses[]] | .[] | { name: .name, state: .state | keys | .[], info: .state[].reason }'
 }
+kall() {
+    resources=( $(kubectl api-resources --verbs=list --namespaced -o name 2> /dev/null | grep -v "events.events.k8s.io\|events" | sort | uniq | cut -d . -f 1) )
+    for ((i=0;i< ${#resources[@]} ;i+=10)); do
+        subset="${resources[@]:i:10}" # Next 10
+        csv="${subset// /,}"
+        echo "[Resources] ${csv}"
+        kubectl get "$csv"
+    done
+}
 
 #####################
 # git aliases & utils

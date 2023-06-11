@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class Main {
     static class Pair {
@@ -31,7 +30,7 @@ public class Main {
         String bashHistory = System.getProperty("user.home") + File.separator + ".bash_history";
 
         // Backup the file
-        var copied = Paths.get(bashHistory+".bak");
+        var copied = Paths.get(bashHistory + ".bak");
         var originalPath = Path.of(bashHistory);
         Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
 
@@ -70,8 +69,8 @@ public class Main {
                     .values()
                     .stream()
                     .sorted(Comparator.comparing(l -> l.ts))
-                    .filter(Main::filter)
-                    .collect(Collectors.toList());
+                    .filter(p -> !badCommands(p))
+                    .toList();
 
             for (var cmd : commandsToSave) {
                 writer.write(cmd.toString() + "\n");
@@ -81,14 +80,14 @@ public class Main {
         }
     }
 
-    private static boolean filter(Pair pair) {
-        return !(
-                pair.cmd.matches("^(cd|cat|ls|rm|mv|ssh|vi|srv|nvim|idea|EOF|EOH|hoistname|srbn|srn|dk).*")
-                        || pair.cmd.matches("^history_cleaner .*")
-                        || pair.cmd.matches("^k logs .*")
-                        || pair.cmd.matches("^git (commit|push|pull|rebase|stash|merge|reset|diff|checkout|branch|status|stah).*")
-                        || pair.cmd.matches("^[0-9|\":\\]].*")
-                        || pair.cmd.charAt(0) == '│'
-        );
+    private static boolean badCommands(Pair pair) {
+        return pair.cmd.isEmpty()
+                || pair.cmd.charAt(0) == '│'
+                || pair.cmd.matches("^(cd|cat|ls|rm|mv|ssh|vi|srv|nvim|idea|EOF|EOH|hoistname|srbn|srn|dk|mkdir|exot).*")
+                || pair.cmd.matches("^docker exec .*")
+                || pair.cmd.matches("^history_cleaner .*")
+                || pair.cmd.matches("^k (logs|delete) .*")
+                || pair.cmd.matches("^git (commit|push|pull|rebase|stash|merge|reset|diff|checkout|branch|status|stah).*")
+                || pair.cmd.matches("^[0-9|\":\\]].*");
     }
 }
