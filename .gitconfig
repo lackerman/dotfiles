@@ -1,26 +1,45 @@
+[alias]
+	branches = for-each-ref --sort=-committerdate refs/heads/
+	co = checkout
+	hello = !branch=`git rev-parse --abbrev-ref HEAD` && git add . && git stash && git checkout master && git fetch --prune --prune-tags && git pull --rebase && git checkout "${branch}" && git stash pop
+	hist = log --graph --color=always --pretty='[%C(cyan)%h%Creset]%C(bold cyan)%d%Creset %s' --all
+	pu = !git push origin `git branch --show-current`
+	puf = !git push origin `git branch --show-current` --force-with-lease
+	puff = !git push origin `git branch --show-current` --force
+	s = status -uno
+	shelve = !git add . && git stash
+	update = !git shelve && git rebase master && git stash pop
+
+[color]
+	ui = auto
+
+[core]
+	autocrlf = input
+	editor = vim
+	attributesfile = ~/.gitattributes
+	excludesfile = ~/.gitexclude
+	fsmonitor = true
+	untrackedcache = true
+
+[fetch]
+	prune = true
+
 [filter "lfs"]
 	clean = git lfs clean %f
 	smudge = git lfs smudge %f
 	required = true
-[core]
-	autocrlf = input
-	editor = vim
-	attributesfile = /Users/lackerman/.gitattributes
-[alias]
-	hist = log --graph --color=always --pretty='[%C(cyan)%h%Creset]%C(bold cyan)%d%Creset %s' --all
-	co = checkout
-	branches = for-each-ref --sort=-committerdate refs/heads/
-	pu = !git push origin `git branch --show-current`
-	shelve = !git add . && git stash
-    puf = !git push origin `git branch --show-current` -f
-    hello = !branch=`git rev-parse --abbrev-ref HEAD` && git add . && git stash && git checkout master && git fetch --prune --prune-tags && git pull --rebase && git checkout "${branch}" && git stash pop
-    update = !git shelve && git rebase master && git stash pop
-[color]
-	ui = auto
+
+[init]
+	defaultBranch = main
+
 [push]
 	default = current
-[url "ssh://git@github.com/lackerman"]
-	insteadOf = https://github.com/lackerman
+
+[remote "origin"]
+	prune = true
+
 [user]
 	name = Leo Ackerman
-	email = ackerman.leo@gmail.com
+
+[url "ssh://git@github.com/lackerman"]
+	insteadOf = https://github.com/lackerman

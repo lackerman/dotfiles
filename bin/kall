@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+args="$@"
+resources=( $(kubectl api-resources --verbs=list --namespaced -o name 2> /dev/null | grep -v "events.events.k8s.io\|events" | sort | uniq | cut -d . -f 1) )
+for ((i=0;i< ${#resources[@]} ;i+=10)); do
+    subset="${resources[@]:i:10}" # Next 10
+    csv="${subset// /,}"
+    echo "[Resources] ${csv}"
+    kubectl get "$csv" $args
+done

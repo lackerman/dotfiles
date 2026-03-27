@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+resource="$1"
+
+resources() {
+    kubectl get "${resource}"  --no-headers -o custom-columns=":metadata.name" | tr '\n' [:space:]
+}
+
+kubectl delete "${resource}" $(resources)

@@ -1,20 +1,15 @@
-#!/usr/bin/java --source 11
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class Main {
-
     static class Pair {
-
         public final String ts;
         public final String cmd;
 
@@ -29,15 +24,18 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length == 0) {
-            System.err.println("Please provide the location of your bash_history");
-            return;
-        }
-        var filename = args[0];
         var previousCommands = new HashMap<String, Pair>();
         long unixTime = LocalDateTime.now().minusWeeks(1).toEpochSecond(ZoneOffset.UTC);
         long count = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        String bashHistory = System.getProperty("user.home") + File.separator + ".bash_history";
+
+        // Backup the file
+        var copied = Paths.get(bashHistory + ".bak");
+        var originalPath = Path.of(bashHistory);
+        Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
+
+
+        try (BufferedReader br = new BufferedReader(new FileReader(bashHistory))) {
             String line, command, timestamp;
             while ((line = br.readLine()) != null) {
                 var cleanedLine = line.stripTrailing().stripLeading();
@@ -66,13 +64,13 @@ public class Main {
         }
 
         try (BufferedWriter writer = new BufferedWriter(
-                new FileWriter(filename.stripTrailing() + ".new"))) {
+                new FileWriter(bashHistory, false))) {
             var commandsToSave = previousCommands
                     .values()
                     .stream()
                     .sorted(Comparator.comparing(l -> l.ts))
-                    .filter(Main::filter)
-                    .collect(Collectors.toList());
+                    .filter(p -> !badCommands(p))
+                    .toList();
 
             for (var cmd : commandsToSave) {
                 writer.write(cmd.toString() + "\n");
@@ -82,14 +80,14 @@ public class Main {
         }
     }
 
-    private static boolean filter(Pair pair) {
-        return !(
-                pair.cmd.matches("^(cd|cat|ls|rm|mv|ssh|vi|srv|nvim|idea|EOF|EOH|hoistname|srbn|srn|dk).*")
-                        || pair.cmd.matches("^history_cleaner .*")
-                        || pair.cmd.matches("^k logs .*")
-                        || pair.cmd.matches("^git (commit|push|pull|rebase|stash|merge|reset|diff|checkout|branch).*")
-                        || pair.cmd.matches("^[0-9|\":\\]].*")
-                        || pair.cmd.charAt(0) == '│'
-        );
+    private static boolean badCommands(Pair pair) {
+        return pair.cmd.isEmpty()
+                || pair.cmd.charAt(0) == '│'
+                || pair.cmd.matches("^(cd|cat|ls|rm|mv|ssh|vi|srv|nvim|idea|EOF|EOH|hoistname|srbn|srn|dk|mkdir|exot).*")
+                || pair.cmd.matches("^docker exec .*")
+                || pair.cmd.matches("^history_cleaner .*")
+                || pair.cmd.matches("^k (logs|delete) .*")
+                || pair.cmd.matches("^git (commit|push|pull|rebase|stash|merge|reset|diff|checkout|branch|status|stah).*")
+                || pair.cmd.matches("^[0-9|\":\\]].*");
     }
 }

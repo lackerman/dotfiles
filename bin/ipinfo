@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 public_ip="$(curl -sL http://ipecho.net/plain)"
 raw_info="$(curl -s "https://ipapi.co/${public_ip}/json" | \
