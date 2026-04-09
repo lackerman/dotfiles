@@ -4,7 +4,23 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 brew install kube-ps1
 
+DOTFILES_LOCATION=${DOTFILES_LOCATION:-$HOME/.dotfiles}
+
 tee -a "$HOME/.zshrc" <<EOF
-source \${DOTFILES_LOCATION}/shell/profile
+export ZSH="\$HOME/.oh-my-zsh"
+
+ZSH_THEME="robbyrussell"
+
+plugins=(
+  git
+  fzf
+  kube-ps1
+  kubectx
+)
+
+source \$ZSH/oh-my-zsh.sh
+
+export DOTFILES_LOCATION="${DOTFILES_LOCATION}"
 source \${DOTFILES_LOCATION}/shell/zsh/history
+source \${DOTFILES_LOCATION}/shell/profile
 EOF
