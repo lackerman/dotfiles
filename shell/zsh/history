@@ -12,3 +12,38 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_BEEP
+
+HISTORY_IGNORE=(
+    "ls"
+    "ls *"
+    "ll"
+    "cat *"
+    "cd"
+    "cd *"
+    "rm *"
+    "mv *"
+    "ssh *"
+    "vi"
+    "vi *"
+    "idea *"
+    "mkdir *"
+    "dk"
+    "srv"
+    "EOF"
+    "EOH"
+    "docker exec *"
+    "git commit *"
+    "git push *"
+    "git pull *"
+    "git rebase *"
+    "git stash *"
+    "git merge *"
+    "git reset *"
+    "git diff *"
+    "git checkout *"
+    "git branch *"
+    "git status"
+    "k logs *"
+    "k delete *"
+)
+HISTORY_IGNORE="(${(j:|:)HISTORY_IGNORE})"

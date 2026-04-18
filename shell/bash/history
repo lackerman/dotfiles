@@ -4,22 +4,56 @@
 # History setup
 ########################################
 
-export HISTSIZE=100000 # increase history size (default is 500)
+export HISTSIZE=100000
 
-# These seems to remove all bash history on Linux
+# These seem to remove all bash history on Linux
 if [ "$(uname)" = 'Darwin' ]; then
-	HISTTIMEFORMAT='%F %T '
-	HISTFILESIZE=-1
-	HISTSIZE=-1
+    HISTTIMEFORMAT='%F %T '
+    HISTFILESIZE=-1
+    HISTSIZE=-1
 fi
-HISTCONTROL=ignoredups
 
-# Custom history configuration
-# Configure BASH to append (rather than overwrite the history):' 
+# ignoreboth = ignore duplicates + ignore commands starting with space
+# erasedups removes all previous duplicate entries, not just consecutive ones
+HISTCONTROL=ignoreboth:erasedups
+
+_histignore=(
+    "ls"
+    "ls *"
+    "ll"
+    "cat *"
+    "cd"
+    "cd *"
+    "rm *"
+    "mv *"
+    "ssh *"
+    "vi"
+    "vi *"
+    "idea *"
+    "mkdir *"
+    "dk"
+    "srv"
+    "EOF"
+    "EOH"
+    "docker exec *"
+    "git commit *"
+    "git push *"
+    "git pull *"
+    "git rebase *"
+    "git stash *"
+    "git merge *"
+    "git reset *"
+    "git diff *"
+    "git checkout *"
+    "git branch *"
+    "git status"
+    "k logs *"
+    "k delete *"
+)
+HISTIGNORE=$(IFS=:; echo "${_histignore[*]}")
+unset _histignore
+
 shopt -s histappend
-
-# Attempt to save all lines of a multiple-line command in the same entry' 
 shopt -s cmdhist
 
-# After each command, append to the history file and reread it' 
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$"\n"}history -a; history -c; history -r"

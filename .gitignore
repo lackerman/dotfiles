@@ -11,8 +11,3 @@ binwork/
 
 # Vim plug files
 .vim/plugged
-
-.*rc
-
-# Ignore the .zprezto repo
-.zprezto

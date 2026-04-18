@@ -2,11 +2,14 @@
 
 Clone the repository to `.dotfiles` in your `$HOME` directory and execute the init script
 to setup the necessary dotfiles for tmux, vim, Mac profiles and install extra 3rd party utils.
+Homebrew will be installed automatically on macOS if not already present.
 
 ```
 git clone --recursive https://github.com/lackerman/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-sh init.sh bash "${DOTFILES_LOCATION}"
+sh init.sh -s zsh
+# or, with a custom dotfiles location:
+sh init.sh -s bash -d "${DOTFILES_LOCATION}"
 ```
 
 To update the git submodules for iterm2-colors and tmux-themepack, run the following
